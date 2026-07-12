@@ -20,7 +20,8 @@ class Acervo:
 
     def buscar_por_autor(self, autor):
         """Busca livros pelo nome do autor."""
-        return [livros for livros in self.livros if autor in livros.autor]
+        return [livros for livros in self.livros
+                if autor.lower() in livros.autor.lower()]
         # BUG: busca diferencia maiusculas/minusculas
 
     def livros_disponiveis(self):

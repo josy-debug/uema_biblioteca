@@ -1,0 +1,35 @@
+# Pipeline de Qualidade — Sistema de Biblioteca Municipal
+# Este arquivo instrui o GitHub a rodar testes automaticamente a cada push.
+
+name: Pipeline de Qualidade
+
+# Quando rodar:
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# O que fazer:
+jobs:
+  qualidade:
+    runs-on: ubuntu-latest   # máquina virtual que o GitHub usa
+
+    steps:
+
+      - name: 1. Baixar o código
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 3. Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: 4. Verificar estilo do código (flake8)
+        run: flake8 biblioteca/
+
+      - name: 5. Rodar testes com cobertura mínima de 80%
+        run: pytest --cov=biblioteca --cov-fail-under=80
